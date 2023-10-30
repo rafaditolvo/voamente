@@ -1,0 +1,22 @@
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('e-shop.db', (err) => {
+  if (err) {
+    console.error('Erro ao abrir o banco de dados:', err.message);
+  } else {
+    console.log('Banco de dados SQLite criado com sucesso!');
+  }
+});
+
+db.serialize(() => {
+  db.run(`
+    CREATE TABLE IF NOT EXISTS produtos (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      titulo TEXT,
+      descricao TEXT,
+      preco REAL,
+      imagem TEXT
+    )
+  `);
+});
+
+module.exports = db; // Exporte o banco de dados diretamente
